@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:ConvertKit_iOS.xcodeproj">
+      location = "self:/Users/lachlangrant/Developer/MKKit/ConvertKit/ConvertKit.xcodeproj">
    </FileRef>
 </Workspace>

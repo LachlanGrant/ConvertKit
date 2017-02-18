@@ -1,0 +1,9 @@
+[submodule "Carthage/Checkouts/MKKit"]
+	path = Carthage/Checkouts/MKKit
+	url = https://github.com/LachlanGrant/MKKit.git
+[submodule "Carthage/Checkouts/RESTKit"]
+	path = Carthage/Checkouts/RESTKit
+	url = https://github.com/LachlanGrant/RESTKit.git
+[submodule "Carthage/Checkouts/MKUtilityKit"]
+	path = Carthage/Checkouts/MKUtilityKit
+	url = https://github.com/LachlanGrant/MKUtilityKit.git

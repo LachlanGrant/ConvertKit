@@ -4,15 +4,30 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>ConvertKit_iOS.xcscheme</key>
+		<key>ConvertKit_iOS.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>ConvertKit_macOS.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>EF5484081E59047000EB5626</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EF5484171E59047F00EB5626</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EF54842B1E59048C00EB5626</key>
 		<dict>
 			<key>primary</key>
 			<true/>

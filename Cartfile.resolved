@@ -1,0 +1,3 @@
+github "LachlanGrant/MKKit" "6.0.4"
+github "LachlanGrant/RESTKit" "1.0.3"
+github "LachlanGrant/MKUtilityKit" "1.0.3"
