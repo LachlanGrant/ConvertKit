@@ -19,6 +19,8 @@
 		EF5484491E5905C300EB5626 /* MKKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5484461E5905C300EB5626 /* MKKit.framework */; };
 		EF54844A1E5905C300EB5626 /* MKUtilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5484471E5905C300EB5626 /* MKUtilityKit.framework */; };
 		EF54844B1E5905C300EB5626 /* RESTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5484481E5905C300EB5626 /* RESTKit.framework */; };
+		EF95BE581E7402CC00898BAD /* currency.plist in Resources */ = {isa = PBXBuildFile; fileRef = EF95BE571E7402CC00898BAD /* currency.plist */; };
+		EF95BE591E7402CC00898BAD /* currency.plist in Resources */ = {isa = PBXBuildFile; fileRef = EF95BE571E7402CC00898BAD /* currency.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,7 @@
 		EF5484461E5905C300EB5626 /* MKKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MKKit.framework; path = Carthage/Checkouts/MKKit/build/Debug/MKKit.framework; sourceTree = "<group>"; };
 		EF5484471E5905C300EB5626 /* MKUtilityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MKUtilityKit.framework; path = Carthage/Checkouts/MKUtilityKit/build/Debug/MKUtilityKit.framework; sourceTree = "<group>"; };
 		EF5484481E5905C300EB5626 /* RESTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RESTKit.framework; path = Carthage/Checkouts/RESTKit/build/Debug/RESTKit.framework; sourceTree = "<group>"; };
+		EF95BE571E7402CC00898BAD /* currency.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = currency.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				EF5484351E5904A200EB5626 /* ConvertKit.h */,
+				EF95BE571E7402CC00898BAD /* currency.plist */,
 				EF5484371E5904CD00EB5626 /* CKCurrencies.swift */,
 				EF5484381E5904CD00EB5626 /* CKCurrency.swift */,
 				EF5484361E5904A200EB5626 /* Info.plist */,
@@ -208,6 +212,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF95BE581E7402CC00898BAD /* currency.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +220,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF95BE591E7402CC00898BAD /* currency.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
