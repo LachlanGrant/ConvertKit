@@ -369,7 +369,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lachlangrant.ConvertKit-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lachlangrant.ConvertKit;
 				PRODUCT_NAME = ConvertKit;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -397,7 +397,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lachlangrant.ConvertKit-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lachlangrant.ConvertKit;
 				PRODUCT_NAME = ConvertKit;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -426,7 +426,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lachlangrant.ConvertKit-macOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lachlangrant.ConvertKit;
 				PRODUCT_NAME = ConvertKit;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -457,7 +457,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lachlangrant.ConvertKit-macOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lachlangrant.ConvertKit;
 				PRODUCT_NAME = ConvertKit;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
