@@ -21,7 +21,7 @@ public class CKCurrencies {
 	public var cryptoCurrencies: [CKCurrency] = []
 	
 	/// Time/Date String of Last Updated
-	private var lastUpdated: String?
+	public var lastUpdated: String?
 	private var base: String?
 
 	
