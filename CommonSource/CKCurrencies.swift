@@ -162,11 +162,11 @@ public class CKCurrencies {
 	///   - cachedData: Callback for when the cached data has been loaded
 	///   - updatedData: Callback for when the updated data has been loaded
 	public func getCachedThenUpdate(cachedData: @escaping (Bool) -> Void, updatedData: @escaping (Bool) -> Void) {
-		MKUAsync.main {_ in 
-					self.loadCacheData(completion: cachedData)
-			}.utility {_ in 
-					self.updateWithNewData(callback: updatedData)
-				}
+		MKUAsync.main {
+                self.loadCacheData(completion: cachedData)
+			}.utility {
+                self.updateWithNewData(callback: updatedData)
+            }
 	}
 
 	
