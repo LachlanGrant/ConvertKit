@@ -15,7 +15,6 @@
 		EF54843E1E5904D000EB5626 /* ConvertKit.h in Headers */ = {isa = PBXBuildFile; fileRef = EF5484351E5904A200EB5626 /* ConvertKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EF5484431E5905BD00EB5626 /* MKKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5484401E5905BD00EB5626 /* MKKit.framework */; };
 		EF5484441E5905BD00EB5626 /* MKUtilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5484411E5905BD00EB5626 /* MKUtilityKit.framework */; };
-		EF5484451E5905BD00EB5626 /* RESTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5484421E5905BD00EB5626 /* RESTKit.framework */; };
 		EF5484491E5905C300EB5626 /* MKKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5484461E5905C300EB5626 /* MKKit.framework */; };
 		EF54844A1E5905C300EB5626 /* MKUtilityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5484471E5905C300EB5626 /* MKUtilityKit.framework */; };
 		EF54844B1E5905C300EB5626 /* RESTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5484481E5905C300EB5626 /* RESTKit.framework */; };
@@ -46,7 +45,6 @@
 			files = (
 				EF5484431E5905BD00EB5626 /* MKKit.framework in Frameworks */,
 				EF5484441E5905BD00EB5626 /* MKUtilityKit.framework in Frameworks */,
-				EF5484451E5905BD00EB5626 /* RESTKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,13 +169,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Lachlan Grant";
 				TargetAttributes = {
 					EF5484081E59047000EB5626 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = QSCWPBA77U;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					EF54842B1E59048C00EB5626 = {
@@ -258,7 +256,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -266,7 +266,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -312,7 +316,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -320,7 +326,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -373,7 +383,8 @@
 				PRODUCT_NAME = ConvertKit;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -400,7 +411,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lachlangrant.ConvertKit;
 				PRODUCT_NAME = ConvertKit;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

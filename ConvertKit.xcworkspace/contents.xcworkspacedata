@@ -10,7 +10,4 @@
    <FileRef
       location = "group:Carthage/Checkouts/MKUtilityKit/MKUtilityKit.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:Carthage/Checkouts/RESTKit/RESTKit.xcodeproj">
-   </FileRef>
 </Workspace>
