@@ -152,7 +152,9 @@ public class CKCurrencies {
 				self.writeToFile(data: data, crypto: crypto)
 				callback(true)
 			})
-		}
+        } else {
+            callback(false)
+        }
 	}
 
 	
@@ -387,26 +389,21 @@ public class CKCurrencies {
 	///
 	/// - Returns: Array of Plist Data
 	private func getSavedData() -> [String: AnyObject]? {
-#if os(iOS)
-		var plistData: [String: AnyObject] = [:]
-
-		let fileCont = MKUFileController()
+        var plistData: [String: AnyObject] = [:]
+        
+        let fileCont = MKUFileController()
         let path = try! fileCont.getPath(withName: "currency", ofType: "plist", fromBundleWithID: MKBundleID.ConvertKit)
-		let content = try! fileCont.readFile(atPath: path)
-
-		do {
-			plistData = try PropertyListSerialization.propertyList(from: content,
-																   options: PropertyListSerialization.ReadOptions.mutableContainersAndLeaves,
-																   format: nil) as! [String: AnyObject]
-			return plistData
-		} catch {
-			MKULog.shared.error(MKUJSON.toJson(error) as AnyObject)
-			return nil
-		}
-
-#else
-		return nil
-#endif
+        let content = try! fileCont.readFile(atPath: path)
+        
+        do {
+            plistData = try PropertyListSerialization.propertyList(from: content,
+                                                                   options: PropertyListSerialization.ReadOptions.mutableContainersAndLeaves,
+                                                                   format: nil) as! [String: AnyObject]
+            return plistData
+        } catch {
+            MKULog.shared.error(MKUJSON.toJson(error) as AnyObject)
+            return nil
+        }
 
 	}
 }
