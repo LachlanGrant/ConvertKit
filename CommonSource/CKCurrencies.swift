@@ -180,11 +180,19 @@ public class CKCurrencies {
 		let contents = try! String(contentsOf: url)
 		let data = contents.data(using: String.Encoding.utf8)
 
-		let cryptoURL = URL(string: "https://api.coinmarketcap.com/v1/ticker/?limit=32")!
-		let cryptoContents = try! String(contentsOf: cryptoURL)
-		let cryptoData = cryptoContents.data(using: String.Encoding.utf8)
-
-		callback(data!, cryptoData!)
+        if (MKUAppSettings.shared.bundleID == MKBundleID.ConvertNow) {
+            let cryptoURL = URL(string: "https://api.coinmarketcap.com/v1/ticker/?limit=32")!
+            let cryptoContents = try! String(contentsOf: cryptoURL)
+            let cryptoData = cryptoContents.data(using: String.Encoding.utf8)
+            
+            callback(data!, cryptoData!)
+        } else {
+            let cryptoURL = URL(string: "https://api.coinmarketcap.com/v1/ticker")!
+            let cryptoContents = try! String(contentsOf: cryptoURL)
+            let cryptoData = cryptoContents.data(using: String.Encoding.utf8)
+            
+            callback(data!, cryptoData!)
+        }
 	}
 
 	
