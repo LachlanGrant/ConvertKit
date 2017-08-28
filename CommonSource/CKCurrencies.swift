@@ -23,6 +23,8 @@ public class CKCurrencies {
 	/// Time/Date String of Last Updated
 	public var lastUpdated: String?
 	private var base: String?
+    
+    private let fileLocation = FileManager.SearchPathDirectory.applicationSupportDirectory
 
 	
 	/// Blank Init
@@ -205,7 +207,7 @@ public class CKCurrencies {
 		let file = "currency.txt"
 		let cryptoFile = "crypto.txt"
 
-		let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let dir = NSSearchPathForDirectoriesInDomains(fileLocation, .userDomainMask, true)
 		let path = URL(fileURLWithPath: "\(dir[0])/\(file)")
 		let cryptoPath = URL(fileURLWithPath: "\(dir[0])/\(cryptoFile)")
 
@@ -281,15 +283,10 @@ public class CKCurrencies {
 	///   - callback: Data and success return
 	private func getFileContents(fileName: String, callback: @escaping (Data, Bool) -> Void) {
 
-#if os(iOS)
-		let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-#elseif os(macOS)
-		let dir = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)
-#else
-		let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-#endif
-
-		let path = URL(fileURLWithPath: "\(dir[0])/\(fileName)")
+        let dir = NSSearchPathForDirectoriesInDomains(fileLocation, .userDomainMask, true)
+		let path = URL(fileURLWithPath: "\(dir[0])/\(MKUAppSettings.shared.bundleID)/\(fileName)")
+        
+        print(path)
 
 		do {
 			let data = try Data(contentsOf: path)
