@@ -285,8 +285,6 @@ public class CKCurrencies {
 
         let dir = NSSearchPathForDirectoriesInDomains(fileLocation, .userDomainMask, true)
 		let path = URL(fileURLWithPath: "\(dir[0])/\(MKUAppSettings.shared.bundleID)/\(fileName)")
-        
-        print(path)
 
 		do {
 			let data = try Data(contentsOf: path)
