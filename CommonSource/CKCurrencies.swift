@@ -13,6 +13,8 @@ import MKKit
 
 /// Currency Manager
 public class CKCurrencies {
+    
+    public static let shared = CKCurrencies()
 	
 	/// Array of CKCurrency Objects
 	public var currencies: [CKCurrency] = []
@@ -92,6 +94,22 @@ public class CKCurrencies {
 
 		return final
 	}
+    
+    public func addCurrencyToActive(_ currency: CKCurrency) {
+        var active = MKUDefaults.init(suiteName: MKAppGroups.ConvertNowSettings).defaults.array(forKey: "active")
+        
+        active?.append(currency.code)
+        
+        MKUDefaults.init(suiteName: MKAppGroups.ConvertNowSettings).defaults.set(active, forKey: "active")
+    }
+    
+    public func removeCurrencyFromActive(_ currency: CKCurrency) {
+        var active = MKUDefaults.init(suiteName: MKAppGroups.ConvertNowSettings).defaults.array(forKey: "active") as! [String]
+        
+        let newActive = active.filter { $0 != currency.code }
+        
+        MKUDefaults.init(suiteName: MKAppGroups.ConvertNowSettings).defaults.set(newActive, forKey: "active")
+    }
 
 	
 	/// Get 'Active' Currencies when a currency is selected.
@@ -182,19 +200,19 @@ public class CKCurrencies {
 		let contents = try! String(contentsOf: url)
 		let data = contents.data(using: String.Encoding.utf8)
 
+        var limit = 0
+        
         if (MKUAppSettings.shared.bundleID == MKBundleID.ConvertNow) {
-            let cryptoURL = URL(string: "https://api.coinmarketcap.com/v1/ticker/?limit=32")!
-            let cryptoContents = try! String(contentsOf: cryptoURL)
-            let cryptoData = cryptoContents.data(using: String.Encoding.utf8)
-            
-            callback(data!, cryptoData!)
-        } else {
-            let cryptoURL = URL(string: "https://api.coinmarketcap.com/v1/ticker")!
-            let cryptoContents = try! String(contentsOf: cryptoURL)
-            let cryptoData = cryptoContents.data(using: String.Encoding.utf8)
-            
-            callback(data!, cryptoData!)
+            limit = 32
+        } else if (MKUAppSettings.shared.bundleID == MKBundleID.ConvertNowMac) {
+            limit = 64
         }
+        
+        let cryptoURL = URL(string: "https://api.coinmarketcap.com/v1/ticker/" + (limit != 0 ? "?limit=\(limit)": ""))!
+        let cryptoContents = try! String(contentsOf: cryptoURL)
+        let cryptoData = cryptoContents.data(using: String.Encoding.utf8)
+        
+        callback(data!, cryptoData!)
 	}
 
 	
