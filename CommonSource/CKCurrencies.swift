@@ -26,7 +26,11 @@ public class CKCurrencies {
 	public var lastUpdated: String?
 	private var base: String?
     
-    private let fileLocation = FileManager.SearchPathDirectory.applicationSupportDirectory
+    #if os(macOS)
+        private let fileLocation = FileManager.SearchPathDirectory.applicationSupportDirectory
+    #else
+        private let fileLocation = FileManager.SearchPathDirectory.documentDirectory
+    #endif
 
 	
 	/// Blank Init
@@ -165,15 +169,13 @@ public class CKCurrencies {
 	/// Download new currency data from the Internet
 	///
 	/// - Parameter callback: Callback when data has been parsed and cached, with a success bool return
-	public func updateWithNewData(callback: @escaping (Bool) -> Void) {
+	public func updateWithNewData(callback: @escaping (Bool, Data, Data) -> Void) {
 		if (MKUReachability().isConnectedToNetwork) {
-			downloadNewData(callback: { (data, crypto) in
-				self.handleUpdate(data, crypto: crypto, saveToDefaults: true)
-				self.writeToFile(data: data, crypto: crypto)
-				callback(true)
+			try! downloadNewData(callback: { (data, crypto) in
+                callback(true, data, crypto)
 			})
         } else {
-            callback(false)
+            callback(false, Data(), Data())
         }
 	}
 
@@ -183,36 +185,99 @@ public class CKCurrencies {
 	/// - Parameters:
 	///   - cachedData: Callback for when the cached data has been loaded
 	///   - updatedData: Callback for when the updated data has been loaded
-	public func getCachedThenUpdate(cachedData: @escaping (Bool) -> Void, updatedData: @escaping (Bool) -> Void) {
-		MKUAsync.main {
-                self.loadCacheData(completion: cachedData)
-			}.utility {
-                self.updateWithNewData(callback: updatedData)
+    public func getCachedThenUpdate(progress: (Double) -> Void ,updatedData: @escaping () -> Void) throws {
+        let group = MKUAsyncGroup()
+        
+        var dict: [String: (Data, Data)] = [:]
+        
+        progress(0.0)
+        
+        group.utility {
+            MKULog.shared.debug("Loading Cached Data...")
+            self.loadCacheData(completion: { (data, crypto) in
+                MKULog.shared.debug("Success Load Data from Cache")
+                dict["cached"] = (data, crypto)
+            })
+        }
+        
+        group.utility {
+            MKULog.shared.debug("Loading Remote Data...")
+            self.updateWithNewData(callback: { (success, data, crypto) in
+                if (success) {
+                    MKULog.shared.debug("Success Load Data from Remote")
+                    dict["remote"] = (data, crypto)
+                } else {
+                    MKULog.shared.error("[CKCurrencies] Unable to load Remote Data")
+                }
+            })
+        }
+        
+        MKULog.shared.debug("Waiting for tasks to complete...")
+        group.wait()
+        MKULog.shared.debug("Tasks complete")
+        
+        progress(0.25)
+        
+        if let remote = dict["remote"] {
+            MKULog.shared.debug("We have remote data")
+            MKULog.shared.debug("Handling update")
+            self.handleUpdate(remote.0, crypto: remote.1, saveToDefaults: true)
+            
+            progress(0.5)
+            MKUAsync.background {
+                MKULog.shared.debug("Writing to file")
+                self.writeToFile(data: remote.0, crypto: remote.1)
             }
+            progress(1.0)
+            MKULog.shared.debug("Callback")
+            updatedData()
+        } else {
+            if let local = dict["cached"] {
+                MKULog.shared.debug("No remote but local data")
+                progress(0.5)
+                MKULog.shared.debug("Handling update")
+                self.handleUpdate(local.0, crypto: local.1, saveToDefaults: false)
+                progress(1.0)
+                MKULog.shared.debug("Callback")
+                updatedData()
+            } else {
+                MKULog.shared.debug("SHIT")
+                throw CKError.noData
+            }
+        }
 	}
 
 	
 	/// Download New Data
 	///
 	/// - Parameter callback: Returns two data objects
-	private func downloadNewData(callback: @escaping (Data, Data) -> Void) {
-		let url = URL(string: "https://api.fixer.io/latest?base=AUD")!
-		let contents = try! String(contentsOf: url)
-		let data = contents.data(using: String.Encoding.utf8)
-
-        var limit = 0
+	private func downloadNewData(callback: @escaping (Data, Data) -> Void) throws {
         
-        if (MKUAppSettings.shared.bundleID == MKBundleID.ConvertNow) {
-            limit = 32
-        } else if (MKUAppSettings.shared.bundleID == MKBundleID.ConvertNowMac) {
-            limit = 64
+        do {
+            let url = URL(string: "https://api.fixer.io/latest?base=AUD")!
+            
+            let contents = try String(contentsOf: url)
+            let data = contents.data(using: String.Encoding.utf8)
+            
+            var limit = 0
+            
+            if (MKUAppSettings.shared.bundleID == MKBundleID.ConvertNow) {
+                limit = 32
+            } else if (MKUAppSettings.shared.bundleID == MKBundleID.ConvertNowMac) {
+                limit = 64
+            }
+            
+            let cryptoURL = URL(string: "https://api.coinmarketcap.com/v1/ticker/" + (limit != 0 ? "?limit=\(limit)": ""))!
+            let cryptoContents = try! String(contentsOf: cryptoURL)
+            let cryptoData = cryptoContents.data(using: String.Encoding.utf8)
+            
+            callback(data!, cryptoData!)
+        } catch {
+            let strError = String(describing: error)
+            
+            MKULog.shared.error("[ConvertKit] \(strError)")
+            throw error
         }
-        
-        let cryptoURL = URL(string: "https://api.coinmarketcap.com/v1/ticker/" + (limit != 0 ? "?limit=\(limit)": ""))!
-        let cryptoContents = try! String(contentsOf: cryptoURL)
-        let cryptoData = cryptoContents.data(using: String.Encoding.utf8)
-        
-        callback(data!, cryptoData!)
 	}
 
 	
@@ -242,7 +307,7 @@ public class CKCurrencies {
 	/// Load Data from Cache
 	///
 	/// - Parameter completion: Callback, success bool
-	public func loadCacheData(completion: @escaping (Bool) -> Void) {
+	public func loadCacheData(completion: @escaping (Data, Data) -> Void) {
 		var tmpCurrency = Data()
 		var tmpCrypto = Data()
 
@@ -258,11 +323,12 @@ public class CKCurrencies {
 			}
 		}
 
-		if (tmpCurrency != Data() && tmpCrypto != Data()) {
-			self.handleUpdate(tmpCurrency, crypto: tmpCrypto, saveToDefaults: false)
-		}
+//        var success = false
+//        if (tmpCurrency != Data() && tmpCrypto != Data()) {
+//            success = true
+//        }
 
-		completion(true)
+		completion(tmpCurrency, tmpCrypto)
 	}
 
 	
@@ -382,7 +448,8 @@ public class CKCurrencies {
 	private func saveDataToDefaults() {
 		let curr = currencies
 		let crypto = cryptoCurrencies
-		let defaults = MKUDefaults.init(suiteName: MKAppGroups.ConvertNowData).defaults
+//        let defaults = MKUDefaults.init(suiteName: MKAppGroups.ConvertNowData).defaults
+        let defaultss = MKUDefaults(suiteName: MKAppGroups.ConvertNowData).defaults
 
 		var codes: [String] = []
 		var name: [String] = []
@@ -400,9 +467,9 @@ public class CKCurrencies {
 			rate.append(item.rate)
 		}
 
-		defaults.set(codes, forKey: "codes")
-		defaults.set(name, forKey: "names")
-		defaults.set(rate, forKey: "rates")
+		defaultss.set(codes, forKey: "codes")
+		defaultss.set(name, forKey: "names")
+		defaultss.set(rate, forKey: "rates")
 	}
 
 	
@@ -427,4 +494,8 @@ public class CKCurrencies {
         }
 
 	}
+}
+
+enum CKError: Error {
+    case noData
 }
