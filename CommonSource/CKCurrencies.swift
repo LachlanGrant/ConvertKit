@@ -185,12 +185,10 @@ public class CKCurrencies {
 	/// - Parameters:
 	///   - cachedData: Callback for when the cached data has been loaded
 	///   - updatedData: Callback for when the updated data has been loaded
-    public func getCachedThenUpdate(progress: (Double) -> Void ,updatedData: @escaping () -> Void) throws {
+    public func getCachedThenUpdate(updatedData: @escaping () -> Void) {
         let group = MKUAsyncGroup()
         
         var dict: [String: (Data, Data)] = [:]
-        
-        progress(0.0)
         
         group.utility {
             MKULog.shared.debug("Loading Cached Data...")
@@ -216,33 +214,25 @@ public class CKCurrencies {
         group.wait()
         MKULog.shared.debug("Tasks complete")
         
-        progress(0.25)
-        
-        if let remote = dict["remote"] {
-            MKULog.shared.debug("We have remote data")
-            MKULog.shared.debug("Handling update")
-            self.handleUpdate(remote.0, crypto: remote.1, saveToDefaults: true)
-            
-            progress(0.5)
-            MKUAsync.background {
+        MKUAsync.background {
+            if let remote = dict["remote"] {
+                MKULog.shared.debug("We have remote data")
+                MKULog.shared.debug("Handling update")
+                self.handleUpdate(remote.0, crypto: remote.1, saveToDefaults: true)
                 MKULog.shared.debug("Writing to file")
                 self.writeToFile(data: remote.0, crypto: remote.1)
-            }
-            progress(1.0)
-            MKULog.shared.debug("Callback")
-            updatedData()
-        } else {
-            if let local = dict["cached"] {
-                MKULog.shared.debug("No remote but local data")
-                progress(0.5)
-                MKULog.shared.debug("Handling update")
-                self.handleUpdate(local.0, crypto: local.1, saveToDefaults: false)
-                progress(1.0)
                 MKULog.shared.debug("Callback")
                 updatedData()
             } else {
-                MKULog.shared.debug("SHIT")
-                throw CKError.noData
+                if let local = dict["cached"] {
+                    MKULog.shared.debug("No remote but local data")
+                    MKULog.shared.debug("Handling update")
+                    self.handleUpdate(local.0, crypto: local.1, saveToDefaults: false)
+                    MKULog.shared.debug("Callback")
+                    updatedData()
+                } else {
+                    MKULog.shared.debug("SHIT")
+                }
             }
         }
 	}
