@@ -334,7 +334,7 @@ public class CKCurrencies {
 	///   - data: Currency Data
 	///   - crypto: Crypto Data
 	///   - saveToDefaults: Should this data be saved to UserDefaults (watchOS Support)
-	private func handleUpdate(_ data: Data, crypto: Data, saveToDefaults: Bool) {
+	public func handleUpdate(_ data: Data, crypto: Data, saveToDefaults: Bool) {
 		do {
 			var saved = getSavedData()
 			let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: AnyObject]
